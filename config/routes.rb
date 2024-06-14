@@ -4,7 +4,23 @@ Rails.application.routes.draw do
   #resources :auths, only: [:create]
   resources :kinds
 
-  scope module: 'v1' do
+  api_version(:module => "V1", :path => {:value => "v1"}) do
+    resources :contacts do
+      resources :kind, only: [:show] 
+      resources :kind, only: [:show], path: 'relationships/kinds' 
+
+      resources :phones, only: [:show]
+      resources :phones, only: [:show], path: 'relationships/phones'
+
+      resource :phone, only: [:update, :create, :destroy]
+      resource :phone, only: [:update, :create, :destroy], path: 'relationships/phone'
+
+      resources :addresses, only: [:show, :update, :create, :destroy] 
+      resources :addresses, only: [:show, :update, :create, :destroy], path: 'relationships/addresses'
+    end
+  end
+
+  api_version(:module => "V2", :path => {:value => "v2"}) do
     resources :contacts do
       resources :kind, only: [:show] 
       resources :kind, only: [:show], path: 'relationships/kinds' 
@@ -18,21 +34,6 @@ Rails.application.routes.draw do
       resources :addresses, only: [:show, :update, :create, :destroy] 
       resources :addresses, only: [:show, :update, :create, :destroy], path: 'relationships/addresses' 
     end
-
-    scope module: 'v2' do
-      resources :contacts do
-        resources :kind, only: [:show] 
-        resources :kind, only: [:show], path: 'relationships/kinds' 
-  
-        resources :phones, only: [:show]
-        resources :phones, only: [:show], path: 'relationships/phones'
-  
-        resource :phone, only: [:update, :create, :destroy]
-        resource :phone, only: [:update, :create, :destroy], path: 'relationships/phone'
-  
-        resources :addresses, only: [:show, :update, :create, :destroy] 
-        resources :addresses, only: [:show, :update, :create, :destroy], path: 'relationships/addresses' 
-      end
   end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,5 +1,9 @@
 class Contact < ApplicationRecord
 
+  validates_presence_of :kind
+
+  paginates_per 5
+
   #Associations
     belongs_to :kind #, optional: true
     has_many :phones

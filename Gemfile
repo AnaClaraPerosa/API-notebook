@@ -30,6 +30,10 @@ gem 'devise'
 
 gem 'devise_token_auth'
 
+gem 'versionist'
+
+gem 'kaminari'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
