@@ -12,7 +12,7 @@ module V1
       @contacts = Contact.all.page(page_number).per(per_page)
 
       if stale?(etag: @contacts)
-        render  json: @contacts #, methods: :birthdate_br #[:hello, :i18n]
+        render  json: @contacts
       end
     end
 
@@ -28,7 +28,7 @@ module V1
       if @contact.save
         render json: @contact, include: [:kind, :phones, :address], status: :created, location: @contact
       else
-        render json: ErrorSerializer.serialize(@contact.errors) #@contact.errors, status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@contact.errors)
       end
     end
 
@@ -63,3 +63,4 @@ module V1
       end
   end
 end
+ 

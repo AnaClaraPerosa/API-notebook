@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
-  #resources :auths, only: [:create]
   resources :kinds
 
   api_version(:module => "V1", :path => {:value => "v1"}) do

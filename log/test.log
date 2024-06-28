@@ -1,0 +1,145 @@
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "addresses"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "street" varchar, "city" varchar, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_addresses_on_contact_id" ON "addresses" ("contact_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "contacts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "contacts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "birthdate" date, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "kind_id" integer)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_contacts_on_kind_id" ON "contacts" ("kind_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "kinds"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "kinds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "description" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "phones"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "phones" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "number" varchar, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_phones_on_contact_id" ON "phones" ("contact_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar DEFAULT 'email' NOT NULL, "uid" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime(6), "allow_password_change" boolean DEFAULT 0, "remember_created_at" datetime(6), "confirmation_token" varchar, "confirmed_at" datetime(6), "confirmation_sent_at" datetime(6), "unconfirmed_email" varchar, "name" varchar, "nickname" varchar, "image" varchar, "email" varchar, "tokens" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_confirmation_token" ON "users" ("confirmation_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_uid_and_provider" ON "users" ("uid", "provider")[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aaddresses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "street" varchar DEFAULT NULL, "city" varchar DEFAULT NULL, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aaddresses_on_contact_id" ON "aaddresses" ("contact_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "aaddresses" ("id","street","city","contact_id","created_at","updated_at")
+                     SELECT "id","street","city","contact_id","created_at","updated_at" FROM "addresses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "addresses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "street" varchar DEFAULT NULL, "city" varchar DEFAULT NULL, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_67e9674de3"
+FOREIGN KEY ("contact_id")
+  REFERENCES "contacts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_addresses_on_contact_id" ON "addresses" ("contact_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "addresses" ("id","street","city","contact_id","created_at","updated_at")
+                     SELECT "id","street","city","contact_id","created_at","updated_at" FROM "aaddresses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aaddresses"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "acontacts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar DEFAULT NULL, "email" varchar DEFAULT NULL, "birthdate" date DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "kind_id" integer DEFAULT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_acontacts_on_kind_id" ON "acontacts" ("kind_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "acontacts" ("id","name","email","birthdate","created_at","updated_at","kind_id")
+                     SELECT "id","name","email","birthdate","created_at","updated_at","kind_id" FROM "contacts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "contacts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "contacts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar DEFAULT NULL, "email" varchar DEFAULT NULL, "birthdate" date DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "kind_id" integer DEFAULT NULL, CONSTRAINT "fk_rails_c1f4bf4c44"
+FOREIGN KEY ("kind_id")
+  REFERENCES "kinds" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_contacts_on_kind_id" ON "contacts" ("kind_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "contacts" ("id","name","email","birthdate","created_at","updated_at","kind_id")
+                     SELECT "id","name","email","birthdate","created_at","updated_at","kind_id" FROM "acontacts"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "acontacts"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aphones" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "number" varchar DEFAULT NULL, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aphones_on_contact_id" ON "aphones" ("contact_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "aphones" ("id","number","contact_id","created_at","updated_at")
+                     SELECT "id","number","contact_id","created_at","updated_at" FROM "phones"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "phones"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "phones" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "number" varchar DEFAULT NULL, "contact_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0c8c68a120"
+FOREIGN KEY ("contact_id")
+  REFERENCES "contacts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_phones_on_contact_id" ON "phones" ("contact_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "phones" ("id","number","contact_id","created_at","updated_at")
+                     SELECT "id","number","contact_id","created_at","updated_at" FROM "aphones"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aphones"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20240613141514)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20240606135023),
+(20240606132850),
+(20240522114229),
+(20240515191212),
+(20240515185824),
+(20240515185234);[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2024-06-25 13:32:45.946911', '2024-06-25 13:32:45.946915') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '524036c0b195e196944fa8363edf38a38dd75197', '2024-06-25 13:32:45.947755', '2024-06-25 13:32:45.947758') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as JSON
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) AS "size", MAX(subquery_for_cache_key.collection_cache_key_timestamp) AS timestamp FROM (SELECT "contacts"."updated_at" AS collection_cache_key_timestamp FROM "contacts" LIMIT ? OFFSET ?) subquery_for_cache_key[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  [1m[36mContact Load (0.1ms)[0m  [1m[34mSELECT "contacts".* FROM "contacts" LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::JsonApi (1.41ms)
+Completed 200 OK in 14ms (Views: 3.9ms | ActiveRecord: 0.3ms | Allocations: 8268)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as JSON
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) AS "size", MAX(subquery_for_cache_key.collection_cache_key_timestamp) AS timestamp FROM (SELECT "contacts"."updated_at" AS collection_cache_key_timestamp FROM "contacts" LIMIT ? OFFSET ?) subquery_for_cache_key[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  [1m[36mContact Load (0.1ms)[0m  [1m[34mSELECT "contacts".* FROM "contacts" LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::JsonApi (0.78ms)
+Completed 200 OK in 12ms (Views: 2.9ms | ActiveRecord: 0.3ms | Allocations: 8052)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as HTML
+Filter chain halted as :ensure_json_request rendered or redirected
+Completed 406 Not Acceptable in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 317)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as JSON
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) AS "size", MAX(subquery_for_cache_key.collection_cache_key_timestamp) AS timestamp FROM (SELECT "contacts"."updated_at" AS collection_cache_key_timestamp FROM "contacts" LIMIT ? OFFSET ?) subquery_for_cache_key[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  [1m[36mContact Load (0.1ms)[0m  [1m[34mSELECT "contacts".* FROM "contacts" LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::JsonApi (19.31ms)
+Completed 200 OK in 31ms (Views: 21.4ms | ActiveRecord: 0.3ms | Allocations: 7843)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as HTML
+Filter chain halted as :ensure_json_request rendered or redirected
+Completed 406 Not Acceptable in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 317)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+Processing by V1::ContactsController#index as JSON
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) AS "size", MAX(subquery_for_cache_key.collection_cache_key_timestamp) AS timestamp FROM (SELECT "contacts"."updated_at" AS collection_cache_key_timestamp FROM "contacts" LIMIT ? OFFSET ?) subquery_for_cache_key[0m  [["LIMIT", 5], ["OFFSET", 0]]
+  [1m[36mContact Load (0.1ms)[0m  [1m[34mSELECT "contacts".* FROM "contacts" LIMIT ? OFFSET ?[0m  [["LIMIT", 5], ["OFFSET", 0]]
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::JsonApi (0.82ms)
+Completed 200 OK in 13ms (Views: 3.5ms | ActiveRecord: 0.4ms | Allocations: 7839)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
