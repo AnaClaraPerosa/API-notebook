@@ -8,7 +8,7 @@ class KindsController < ApplicationController
   #http_basic_authenticate_with name:"Ana", password:"secret"
 
   #include ActionController::HttpAuthentication::Digest::ControllerMethods
-  # USERS = { "jack" => Digest::MD5.hexdigest(["Ana","Application","secret"].join(":"))}
+  # USERS = { "ana" => Digest::MD5.hexdigest(["Ana","Application","secret"].join(":"))}
 
   # include ActionController::HttpAuthentication::Token::ControllerMethods
 
